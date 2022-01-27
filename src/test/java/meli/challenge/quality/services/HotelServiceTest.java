@@ -1,26 +1,20 @@
 package meli.challenge.quality.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +29,6 @@ import meli.challenge.quality.mocks.RoomMock;
 import meli.challenge.quality.mocks.RoomTypeMock;
 import meli.challenge.quality.repositories.RoomRepository;
 import meli.challenge.quality.services.HotelServiceImpl.IHotelRoomResponseBuilder;
-import meli.challenge.quality.services.HotelServiceImpl.HotelRoomResponseBuilder;
 
 public class HotelServiceTest {
   private HotelService hotelService;
@@ -44,7 +37,6 @@ public class HotelServiceTest {
   private final ObjectMapper objectMapper = new ObjectMapper();
   private List<HotelRoomResponse> allRoomsResponse;
   private RoomMock roomMock;
-  private Logger logger = Logger.getLogger(HotelServiceTest.class);
 
   @BeforeEach
   public void setUp() throws IOException, ParseException {
