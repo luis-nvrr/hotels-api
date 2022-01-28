@@ -32,4 +32,10 @@ public class SqlRoomAdapter implements RoomRepository {
     return null;
   }
 
+  @Override
+  public List<Room> findAvailableRoomsByEndDate(Date endDate) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

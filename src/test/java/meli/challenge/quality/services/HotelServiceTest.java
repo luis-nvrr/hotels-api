@@ -119,4 +119,16 @@ public class HotelServiceTest {
     assertEquals(2, this.hotelService.findAvailableRoomsByStartDate(startDateString).size());
   }
 
+  @Test
+  @DisplayName("Should find available rooms by end date")
+  void shouldFindAvailableRoomsByEndDate() throws ParseException, InvalidDateException {
+    String endDateString = "01/04/2021";
+    Date endDate = formatter.parse(endDateString);
+
+    when(roomRepository.findAvailableRoomsByEndDate(
+        endDate))
+            .thenReturn(roomMock.findAvailableRoomsUntilFirstMarch());
+
+    assertEquals(1, this.hotelService.findAvailableRoomsByEndDate(endDateString).size());
+  }
 }

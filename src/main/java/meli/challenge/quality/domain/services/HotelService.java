@@ -13,4 +13,6 @@ public interface HotelService {
       throws InvalidDateException;
 
   List<HotelRoomResponse> findAvailableRoomsByStartDate(String startDate) throws InvalidDateException;
+
+  List<HotelRoomResponse> findAvailableRoomsByEndDate(String endDate) throws InvalidDateException;
 }
