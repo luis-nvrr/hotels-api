@@ -38,4 +38,10 @@ public class SqlRoomAdapter implements RoomRepository {
     return null;
   }
 
+  @Override
+  public List<Room> findAvailableRoomsByStartDateAndCity(Date startDate, String cityName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

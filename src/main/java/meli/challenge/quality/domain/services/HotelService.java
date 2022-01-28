@@ -15,4 +15,7 @@ public interface HotelService {
   List<HotelRoomResponse> findAvailableRoomsByStartDate(String startDate) throws InvalidDateException;
 
   List<HotelRoomResponse> findAvailableRoomsByEndDate(String endDate) throws InvalidDateException;
+
+  List<HotelRoomResponse> findAvailableRoomsByStartDateAndCity(String startDate, String cityName)
+      throws InvalidDateException;
 }

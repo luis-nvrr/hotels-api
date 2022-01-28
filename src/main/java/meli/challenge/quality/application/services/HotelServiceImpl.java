@@ -65,6 +65,14 @@ public class HotelServiceImpl implements HotelService {
     return this.roomListToResponseRoomList(rooms);
   }
 
+  @Override
+  public List<HotelRoomResponse> findAvailableRoomsByStartDateAndCity(String startDateString, String cityName)
+      throws InvalidDateException {
+    Date startDate = stringToDate(startDateString);
+    List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDateAndCity(startDate, cityName);
+    return this.roomListToResponseRoomList(rooms);
+  }
+
   private List<HotelRoomResponse> roomListToResponseRoomList(List<Room> rooms) {
     List<HotelRoomResponse> roomResponses = new ArrayList<>();
     for (Room room : rooms) {
