@@ -14,7 +14,7 @@ public class SqlRoomAdapter implements RoomRepository {
   private SqlRoomRepository sqlRoomRepository;
 
   @Override
-  public List<Room> findByAvailableSinceLessThanEqualAndAvailableUntilGreaterThanEqualAndCity_Name(Date availableSince,
+  public List<Room> findByAvailableFromDateToDateAndByCity(Date availableSince,
       Date availableUntil, String name) {
     // TODO Auto-generated method stub
     return null;

@@ -6,6 +6,8 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -25,6 +27,7 @@ import meli.challenge.quality.application.dtos.HotelRoomResponse;
 import meli.challenge.quality.application.services.HotelServiceImpl;
 import meli.challenge.quality.application.services.HotelServiceImpl.IHotelRoomResponseBuilder;
 import meli.challenge.quality.domain.entities.Room;
+import meli.challenge.quality.domain.exceptions.InvalidDateException;
 import meli.challenge.quality.domain.repositories.RoomRepository;
 import meli.challenge.quality.domain.services.HotelService;
 import meli.challenge.quality.mocks.CityMock;
@@ -38,7 +41,10 @@ public class HotelServiceTest {
   private RoomRepository roomRepository;
   private final ObjectMapper objectMapper = new ObjectMapper();
   private List<HotelRoomResponse> allRoomsResponse;
+  private List<HotelRoomResponse> filteredResponses;
   private RoomMock roomMock;
+  private final String DATE_FORMAT = "dd/MM/yyyy";
+  private final SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
   @BeforeEach
   public void setUp() throws IOException, ParseException {
@@ -48,6 +54,10 @@ public class HotelServiceTest {
     this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     this.allRoomsResponse = objectMapper.readValue(new File("src/test/resources/hotels/allHotelsResponse.json"),
+        new TypeReference<>() {
+        });
+
+    this.filteredResponses = objectMapper.readValue(new File("src/test/resources/hotels/filteredResponse.json"),
         new TypeReference<>() {
         });
 
@@ -78,4 +88,21 @@ public class HotelServiceTest {
     assertEquals(objectMapper.writeValueAsString(responseBuilder.getResponse()),
         objectMapper.writeValueAsString(responseExpected));
   }
+
+  @Test
+  @DisplayName("Should filter rooms based on availables dates and city")
+  void shouldFilterRoomsBasedOnAvailablesDatesAndCity() throws ParseException, InvalidDateException {
+    String startDateString = "01/02/2021";
+    String endDateString = "01/05/2021";
+    Date startDate = formatter.parse(startDateString);
+    Date endDate = formatter.parse(endDateString);
+    String cityName = "Buenos Aires";
+
+    when(roomRepository.findByAvailableFromDateToDateAndByCity(startDate, endDate, cityName))
+        .thenReturn(roomMock.findRoomsInBuenosAiresFromFirstFebruaryToFirstMay());
+
+    assertEquals(filteredResponses.size(),
+        this.hotelService.findByAvailableFromDateToDateAndByCity(startDateString, endDateString, cityName).size());
+  }
+
 }

@@ -121,4 +121,11 @@ public class RoomMock {
         public Room get(String code) {
                 return this.mock.get(code);
         }
+
+        public List<Room> findRoomsInBuenosAiresFromFirstFebruaryToFirstMay() {
+                List<Room> rooms = new ArrayList<>();
+                rooms.add(mock.get("HB-0001"));
+                rooms.add(mock.get("BH-0002"));
+                return rooms;
+        }
 }

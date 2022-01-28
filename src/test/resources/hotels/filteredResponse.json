@@ -10,8 +10,8 @@
     "isBooked": "NO"
   },
   {
-    "code": "HB-0002",
-    "name": "Hotel Bristol",
+    "code": "BH-0002",
+    "name": "Hotel Bristol 2",
     "city": "Buenos Aires",
     "roomType": "Doble",
     "priceByNight": "$7200",

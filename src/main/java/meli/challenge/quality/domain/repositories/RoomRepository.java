@@ -7,7 +7,7 @@ import meli.challenge.quality.domain.entities.Room;
 
 public interface RoomRepository {
 
-  List<Room> findByAvailableSinceLessThanEqualAndAvailableUntilGreaterThanEqualAndCity_Name(Date availableSince,
+  List<Room> findByAvailableFromDateToDateAndByCity(Date availableSince,
       Date availableUntil, String name);
 
   List<Room> findAll();
