@@ -3,7 +3,7 @@ package meli.challenge.quality.mocks;
 import java.util.Hashtable;
 import java.util.Map;
 
-import meli.challenge.quality.entities.City;
+import meli.challenge.quality.domain.entities.City;
 
 public class CityMock {
   private Map<String, City> mock;

@@ -1,4 +1,4 @@
-package meli.challenge.quality.dtos;
+package meli.challenge.quality.application.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

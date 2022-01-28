@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import meli.challenge.quality.entities.Room;
+import meli.challenge.quality.domain.entities.Room;
 
 public class RoomMock {
 

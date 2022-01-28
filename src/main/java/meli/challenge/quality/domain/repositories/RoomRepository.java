@@ -1,9 +1,9 @@
-package meli.challenge.quality.repositories;
+package meli.challenge.quality.domain.repositories;
 
 import java.util.Date;
 import java.util.List;
 
-import meli.challenge.quality.entities.Room;
+import meli.challenge.quality.domain.entities.Room;
 
 public interface RoomRepository {
 

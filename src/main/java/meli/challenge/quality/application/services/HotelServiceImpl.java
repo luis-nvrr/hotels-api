@@ -1,4 +1,4 @@
-package meli.challenge.quality.services;
+package meli.challenge.quality.application.services;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,9 +9,10 @@ import org.jboss.logging.Logger;
 import org.springframework.stereotype.Service;
 
 import lombok.NoArgsConstructor;
-import meli.challenge.quality.dtos.HotelRoomResponse;
-import meli.challenge.quality.entities.Room;
-import meli.challenge.quality.repositories.RoomRepository;
+import meli.challenge.quality.application.dtos.HotelRoomResponse;
+import meli.challenge.quality.domain.entities.Room;
+import meli.challenge.quality.domain.repositories.RoomRepository;
+import meli.challenge.quality.domain.services.HotelService;
 
 @Service
 @NoArgsConstructor

@@ -1,6 +1,10 @@
-package meli.challenge.quality.entities;
+package meli.challenge.quality.infrastructure.entities;
 
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,13 +13,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Room {
+@Entity
+public class SqlRoom {
+  @Id
   private String code;
-  private Hotel hotel;
-  private RoomType roomType;
+  @Column
+  private SqlHotel hotel;
+  @Column
+  private SqlRoomType roomType;
+  @Column
   private int priceByNight;
+  @Column
   private Date availableSince;
+  @Column
   private Date availableUntil;
+  @Column
   private boolean isBooked;
 
   public String getHotelName() {
@@ -29,4 +41,5 @@ public class Room {
   public String getRoomTypeName() {
     return this.roomType.getName();
   }
+
 }

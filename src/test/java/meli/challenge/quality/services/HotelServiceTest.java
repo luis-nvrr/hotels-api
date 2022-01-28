@@ -21,14 +21,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-import meli.challenge.quality.dtos.HotelRoomResponse;
-import meli.challenge.quality.entities.Room;
+import meli.challenge.quality.application.dtos.HotelRoomResponse;
+import meli.challenge.quality.application.services.HotelServiceImpl;
+import meli.challenge.quality.application.services.HotelServiceImpl.IHotelRoomResponseBuilder;
+import meli.challenge.quality.domain.entities.Room;
+import meli.challenge.quality.domain.repositories.RoomRepository;
+import meli.challenge.quality.domain.services.HotelService;
 import meli.challenge.quality.mocks.CityMock;
 import meli.challenge.quality.mocks.HotelMock;
 import meli.challenge.quality.mocks.RoomMock;
 import meli.challenge.quality.mocks.RoomTypeMock;
-import meli.challenge.quality.repositories.RoomRepository;
-import meli.challenge.quality.services.HotelServiceImpl.IHotelRoomResponseBuilder;
 
 public class HotelServiceTest {
   private HotelService hotelService;

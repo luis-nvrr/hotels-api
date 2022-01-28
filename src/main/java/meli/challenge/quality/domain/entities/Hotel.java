@@ -1,4 +1,4 @@
-package meli.challenge.quality.entities;
+package meli.challenge.quality.domain.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
