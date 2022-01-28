@@ -128,4 +128,11 @@ public class RoomMock {
                 rooms.add(mock.get("BH-0002"));
                 return rooms;
         }
+
+        public List<Room> findAvailableRoomsFromFirstApril() {
+                List<Room> rooms = new ArrayList<>();
+                rooms.add(mock.get("SH-0002"));
+                rooms.add(mock.get("BG-0004"));
+                return rooms;
+        }
 }

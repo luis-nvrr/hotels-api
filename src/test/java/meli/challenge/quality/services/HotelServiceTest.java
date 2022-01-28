@@ -71,8 +71,8 @@ public class HotelServiceTest {
   @Test
   @DisplayName("Should list all rooms")
   void shouldListAllRooms() {
-    when(roomRepository.findAll()).thenReturn(this.roomMock.findAll());
-    assertEquals(allRoomsResponse.size(), this.hotelService.findAllHotels().size());
+    when(roomRepository.findAllAvailableRooms()).thenReturn(this.roomMock.findAll());
+    assertEquals(allRoomsResponse.size(), this.hotelService.findAllAvailableRooms().size());
   }
 
   @Test
@@ -99,20 +99,24 @@ public class HotelServiceTest {
     Date endDate = formatter.parse(endDateString);
     String cityName = "Buenos Aires";
 
-    when(roomRepository.findByAvailableFromDateToDateAndByCity(startDate, endDate, cityName))
+    when(roomRepository.findAvailableRoomsByStartDateAndEndDateAndCity(startDate, endDate, cityName))
         .thenReturn(roomMock.findRoomsInBuenosAiresFromFirstFebruaryToFirstMay());
 
     assertEquals(filteredResponses.size(),
-        this.hotelService.findByAvailableFromDateToDateAndByCity(startDateString, endDateString, cityName).size());
+        this.hotelService.findAvailableRoomsByStartDateAndEndDateAndCity(startDateString, endDateString, cityName)
+            .size());
   }
 
-  /*
-   * @Test
-   * 
-   * @DisplayName("Should find available rooms by start date")
-   * void shouldFindAvailableRoomsByStartDate() {
-   * String startDateString = "01/"
-   * }
-   */
+  @Test
+  @DisplayName("Should find available rooms by start date")
+  void shouldFindAvailableRoomsByStartDate() throws ParseException, InvalidDateException {
+    String startDateString = "01/04/2021";
+    Date startDate = formatter.parse(startDateString);
+
+    when(roomRepository.findAvailableRoomsByStartDate(startDate))
+        .thenReturn(roomMock.findAvailableRoomsFromFirstApril());
+
+    assertEquals(2, this.hotelService.findAvailableRoomsByStartDate(startDateString).size());
+  }
 
 }

@@ -31,13 +31,14 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public List<HotelRoomResponse> findAllHotels() {
-    List<Room> rooms = roomRepository.findAll();
+  public List<HotelRoomResponse> findAllAvailableRooms() {
+    List<Room> rooms = roomRepository.findAllAvailableRooms();
     return this.roomListToResponseRoomList(rooms);
   }
 
   @Override
-  public List<HotelRoomResponse> findByAvailableFromDateToDateAndByCity(String startDateString, String endDateString,
+  public List<HotelRoomResponse> findAvailableRoomsByStartDateAndEndDateAndCity(String startDateString,
+      String endDateString,
       String cityName) throws InvalidDateException {
     Date startDate = stringToDate(startDateString);
     Date endDate = stringToDate(endDateString);
@@ -46,7 +47,14 @@ public class HotelServiceImpl implements HotelService {
       throw new InvalidDateException("The date range is invalid");
     }
 
-    List<Room> rooms = this.roomRepository.findByAvailableFromDateToDateAndByCity(startDate, endDate, cityName);
+    List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDateAndEndDateAndCity(startDate, endDate, cityName);
+    return this.roomListToResponseRoomList(rooms);
+  }
+
+  @Override
+  public List<HotelRoomResponse> findAvailableRoomsByStartDate(String startDateString) throws InvalidDateException {
+    Date startDate = stringToDate(startDateString);
+    List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDate(startDate);
     return this.roomListToResponseRoomList(rooms);
   }
 
