@@ -7,15 +7,20 @@ import meli.challenge.quality.domain.exceptions.InvalidDateException;
 
 public interface HotelService {
 
-  List<HotelRoomResponse> findAllAvailableRooms();
+    List<HotelRoomResponse> findAllAvailableRooms();
 
-  List<HotelRoomResponse> findAvailableRoomsByStartDateAndEndDateAndCity(String startDate, String endDate, String name)
-      throws InvalidDateException;
+    List<HotelRoomResponse> findAvailableRoomsByStartDateAndEndDateAndCity(String startDate, String endDate,
+            String name)
+            throws InvalidDateException;
 
-  List<HotelRoomResponse> findAvailableRoomsByStartDate(String startDate) throws InvalidDateException;
+    List<HotelRoomResponse> findAvailableRoomsByStartDate(String startDate) throws InvalidDateException;
 
-  List<HotelRoomResponse> findAvailableRoomsByEndDate(String endDate) throws InvalidDateException;
+    List<HotelRoomResponse> findAvailableRoomsByEndDate(String endDate) throws InvalidDateException;
 
-  List<HotelRoomResponse> findAvailableRoomsByStartDateAndCity(String startDate, String cityName)
-      throws InvalidDateException;
+    List<HotelRoomResponse> findAvailableRoomsByStartDateAndCity(String startDate, String cityName)
+            throws InvalidDateException;
+
+    List<HotelRoomResponse> findAvailableRoomsByEndDateAndCity(String endDate, String cityName)
+            throws InvalidDateException;
+
 }

@@ -33,7 +33,7 @@ public class HotelServiceImpl implements HotelService {
   @Override
   public List<HotelRoomResponse> findAllAvailableRooms() {
     List<Room> rooms = roomRepository.findAllAvailableRooms();
-    return this.roomListToResponseRoomList(rooms);
+    return this.roomsListToRoomResponsesList(rooms);
   }
 
   @Override
@@ -48,21 +48,21 @@ public class HotelServiceImpl implements HotelService {
     }
 
     List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDateAndEndDateAndCity(startDate, endDate, cityName);
-    return this.roomListToResponseRoomList(rooms);
+    return this.roomsListToRoomResponsesList(rooms);
   }
 
   @Override
   public List<HotelRoomResponse> findAvailableRoomsByStartDate(String startDateString) throws InvalidDateException {
     Date startDate = stringToDate(startDateString);
     List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDate(startDate);
-    return this.roomListToResponseRoomList(rooms);
+    return this.roomsListToRoomResponsesList(rooms);
   }
 
   @Override
   public List<HotelRoomResponse> findAvailableRoomsByEndDate(String endDateStrig) throws InvalidDateException {
     Date endDate = stringToDate(endDateStrig);
     List<Room> rooms = this.roomRepository.findAvailableRoomsByEndDate(endDate);
-    return this.roomListToResponseRoomList(rooms);
+    return this.roomsListToRoomResponsesList(rooms);
   }
 
   @Override
@@ -70,10 +70,18 @@ public class HotelServiceImpl implements HotelService {
       throws InvalidDateException {
     Date startDate = stringToDate(startDateString);
     List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDateAndCity(startDate, cityName);
-    return this.roomListToResponseRoomList(rooms);
+    return this.roomsListToRoomResponsesList(rooms);
   }
 
-  private List<HotelRoomResponse> roomListToResponseRoomList(List<Room> rooms) {
+  @Override
+  public List<HotelRoomResponse> findAvailableRoomsByEndDateAndCity(String endDateString, String cityName)
+      throws InvalidDateException {
+    Date endDate = stringToDate(endDateString);
+    List<Room> rooms = this.roomRepository.findAvailableRoomsByEndDateAndCity(endDate, cityName);
+    return this.roomsListToRoomResponsesList(rooms);
+  }
+
+  private List<HotelRoomResponse> roomsListToRoomResponsesList(List<Room> rooms) {
     List<HotelRoomResponse> roomResponses = new ArrayList<>();
     for (Room room : rooms) {
       IHotelRoomResponseBuilder builder = new HotelRoomResponseBuilder(room);
