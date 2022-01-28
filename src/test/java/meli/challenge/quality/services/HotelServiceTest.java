@@ -53,11 +53,12 @@ public class HotelServiceTest {
     this.objectMapper.registerModule(new JavaTimeModule());
     this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-    this.allRoomsResponse = objectMapper.readValue(new File("src/test/resources/hotels/allHotelsResponse.json"),
+    this.allRoomsResponse = objectMapper.readValue(new File("src/test/resources/hotels/allRoomsResponse.json"),
         new TypeReference<>() {
         });
 
-    this.filteredResponses = objectMapper.readValue(new File("src/test/resources/hotels/filteredResponse.json"),
+    this.filteredResponses = objectMapper.readValue(
+        new File("src/test/resources/hotels/roomsByStartDateAndEndDateAndCity.json"),
         new TypeReference<>() {
         });
 
@@ -82,7 +83,7 @@ public class HotelServiceTest {
         room);
     responseBuilder.build();
     HotelRoomResponse responseExpected = objectMapper.readValue(
-        new File("src/test/resources/hotels/oneHotelResponse.json"),
+        new File("src/test/resources/hotels/exampleRoomResponse.json"),
         new TypeReference<>() {
         });
     assertEquals(objectMapper.writeValueAsString(responseBuilder.getResponse()),
@@ -90,8 +91,8 @@ public class HotelServiceTest {
   }
 
   @Test
-  @DisplayName("Should filter rooms based on availables dates and city")
-  void shouldFilterRoomsBasedOnAvailablesDatesAndCity() throws ParseException, InvalidDateException {
+  @DisplayName("Should find available rooms by start date and end date, and city")
+  void shouldFindAvailableRoomsByStartDateAndEndDateAndCity() throws ParseException, InvalidDateException {
     String startDateString = "01/02/2021";
     String endDateString = "01/05/2021";
     Date startDate = formatter.parse(startDateString);
@@ -104,5 +105,14 @@ public class HotelServiceTest {
     assertEquals(filteredResponses.size(),
         this.hotelService.findByAvailableFromDateToDateAndByCity(startDateString, endDateString, cityName).size());
   }
+
+  /*
+   * @Test
+   * 
+   * @DisplayName("Should find available rooms by start date")
+   * void shouldFindAvailableRoomsByStartDate() {
+   * String startDateString = "01/"
+   * }
+   */
 
 }
