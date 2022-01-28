@@ -23,25 +23,25 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-import meli.challenge.quality.application.dtos.HotelRoomResponse;
-import meli.challenge.quality.application.services.HotelServiceImpl;
-import meli.challenge.quality.application.services.HotelServiceImpl.IHotelRoomResponseBuilder;
+import meli.challenge.quality.application.dtos.RoomResponse;
+import meli.challenge.quality.application.services.RoomServiceImpl;
+import meli.challenge.quality.application.services.RoomServiceImpl.IHotelRoomResponseBuilder;
 import meli.challenge.quality.domain.entities.Room;
 import meli.challenge.quality.domain.exceptions.InvalidDateException;
 import meli.challenge.quality.domain.repositories.RoomRepository;
-import meli.challenge.quality.domain.services.HotelService;
+import meli.challenge.quality.domain.services.RoomService;
 import meli.challenge.quality.mocks.CityMock;
 import meli.challenge.quality.mocks.HotelMock;
 import meli.challenge.quality.mocks.RoomMock;
 import meli.challenge.quality.mocks.RoomTypeMock;
 
-public class HotelServiceTest {
-  private HotelService hotelService;
+public class RoomServiceTest {
+  private RoomService hotelService;
   @Mock
   private RoomRepository roomRepository;
   private final ObjectMapper objectMapper = new ObjectMapper();
-  private List<HotelRoomResponse> allRoomsResponse;
-  private List<HotelRoomResponse> filteredResponses;
+  private List<RoomResponse> allRoomsResponse;
+  private List<RoomResponse> filteredResponses;
   private RoomMock roomMock;
   private final String DATE_FORMAT = "dd/MM/yyyy";
   private final SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
@@ -49,7 +49,7 @@ public class HotelServiceTest {
   @BeforeEach
   public void setUp() throws IOException, ParseException {
     openMocks(this);
-    this.hotelService = new HotelServiceImpl(roomRepository);
+    this.hotelService = new RoomServiceImpl(roomRepository);
     this.objectMapper.registerModule(new JavaTimeModule());
     this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
@@ -79,10 +79,10 @@ public class HotelServiceTest {
   @DisplayName("Should contain all the fields expected in the response")
   void shouldMatchExpectedSerialization() throws StreamReadException, DatabindException, IOException {
     Room room = this.roomMock.get("CP-0002");
-    IHotelRoomResponseBuilder responseBuilder = ((HotelServiceImpl) this.hotelService).new HotelRoomResponseBuilder(
+    IHotelRoomResponseBuilder responseBuilder = ((RoomServiceImpl) this.hotelService).new HotelRoomResponseBuilder(
         room);
     responseBuilder.build();
-    HotelRoomResponse responseExpected = objectMapper.readValue(
+    RoomResponse responseExpected = objectMapper.readValue(
         new File("src/test/resources/hotels/exampleRoomResponse.json"),
         new TypeReference<>() {
         });

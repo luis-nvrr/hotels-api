@@ -11,33 +11,33 @@ import org.jboss.logging.Logger;
 import org.springframework.stereotype.Service;
 
 import lombok.NoArgsConstructor;
-import meli.challenge.quality.application.dtos.HotelRoomResponse;
+import meli.challenge.quality.application.dtos.RoomResponse;
 import meli.challenge.quality.domain.entities.Room;
 import meli.challenge.quality.domain.exceptions.InvalidDateException;
 import meli.challenge.quality.domain.repositories.RoomRepository;
-import meli.challenge.quality.domain.services.HotelService;
+import meli.challenge.quality.domain.services.RoomService;
 
 @Service
 @NoArgsConstructor
-public class HotelServiceImpl implements HotelService {
+public class RoomServiceImpl implements RoomService {
 
   private RoomRepository roomRepository;
   private final String DATE_PATTERN = "dd/MM/yyyy";
   private final DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
-  private final Logger logger = Logger.getLogger(HotelServiceImpl.class);
+  private final Logger logger = Logger.getLogger(RoomServiceImpl.class);
 
-  public HotelServiceImpl(RoomRepository hotelRoomRepository) {
+  public RoomServiceImpl(RoomRepository hotelRoomRepository) {
     this.roomRepository = hotelRoomRepository;
   }
 
   @Override
-  public List<HotelRoomResponse> findAllAvailableRooms() {
+  public List<RoomResponse> findAllAvailableRooms() {
     List<Room> rooms = roomRepository.findAllAvailableRooms();
     return this.roomsListToRoomResponsesList(rooms);
   }
 
   @Override
-  public List<HotelRoomResponse> findAvailableRoomsByStartDateAndEndDateAndCity(String startDateString,
+  public List<RoomResponse> findAvailableRoomsByStartDateAndEndDateAndCity(String startDateString,
       String endDateString,
       String cityName) throws InvalidDateException {
     Date startDate = stringToDate(startDateString);
@@ -52,21 +52,21 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public List<HotelRoomResponse> findAvailableRoomsByStartDate(String startDateString) throws InvalidDateException {
+  public List<RoomResponse> findAvailableRoomsByStartDate(String startDateString) throws InvalidDateException {
     Date startDate = stringToDate(startDateString);
     List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDate(startDate);
     return this.roomsListToRoomResponsesList(rooms);
   }
 
   @Override
-  public List<HotelRoomResponse> findAvailableRoomsByEndDate(String endDateStrig) throws InvalidDateException {
+  public List<RoomResponse> findAvailableRoomsByEndDate(String endDateStrig) throws InvalidDateException {
     Date endDate = stringToDate(endDateStrig);
     List<Room> rooms = this.roomRepository.findAvailableRoomsByEndDate(endDate);
     return this.roomsListToRoomResponsesList(rooms);
   }
 
   @Override
-  public List<HotelRoomResponse> findAvailableRoomsByStartDateAndCity(String startDateString, String cityName)
+  public List<RoomResponse> findAvailableRoomsByStartDateAndCity(String startDateString, String cityName)
       throws InvalidDateException {
     Date startDate = stringToDate(startDateString);
     List<Room> rooms = this.roomRepository.findAvailableRoomsByStartDateAndCity(startDate, cityName);
@@ -74,15 +74,15 @@ public class HotelServiceImpl implements HotelService {
   }
 
   @Override
-  public List<HotelRoomResponse> findAvailableRoomsByEndDateAndCity(String endDateString, String cityName)
+  public List<RoomResponse> findAvailableRoomsByEndDateAndCity(String endDateString, String cityName)
       throws InvalidDateException {
     Date endDate = stringToDate(endDateString);
     List<Room> rooms = this.roomRepository.findAvailableRoomsByEndDateAndCity(endDate, cityName);
     return this.roomsListToRoomResponsesList(rooms);
   }
 
-  private List<HotelRoomResponse> roomsListToRoomResponsesList(List<Room> rooms) {
-    List<HotelRoomResponse> roomResponses = new ArrayList<>();
+  private List<RoomResponse> roomsListToRoomResponsesList(List<Room> rooms) {
+    List<RoomResponse> roomResponses = new ArrayList<>();
     for (Room room : rooms) {
       IHotelRoomResponseBuilder builder = new HotelRoomResponseBuilder(room);
       builder.build();
@@ -102,17 +102,17 @@ public class HotelServiceImpl implements HotelService {
   public interface IHotelRoomResponseBuilder {
     void build();
 
-    HotelRoomResponse getResponse();
+    RoomResponse getResponse();
   }
 
   public class HotelRoomResponseBuilder implements IHotelRoomResponseBuilder {
-    private HotelRoomResponse response;
+    private RoomResponse response;
     private Room room;
     private final String DATE_PATTERN = "dd/MM/yyyy";
     private final DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
 
     public HotelRoomResponseBuilder(Room room) {
-      this.response = new HotelRoomResponse();
+      this.response = new RoomResponse();
       this.room = room;
     }
 
@@ -127,7 +127,7 @@ public class HotelServiceImpl implements HotelService {
       response.setIsBooked(room.isBooked() ? "SI" : "NO");
     }
 
-    public HotelRoomResponse getResponse() {
+    public RoomResponse getResponse() {
       return this.response;
     }
   }

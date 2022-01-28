@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotelRoomResponse {
+public class RoomResponse {
   private String code;
   private String name;
   private String city;
@@ -26,10 +26,10 @@ public class HotelRoomResponse {
     if (o == this)
       return true;
 
-    if (!(o instanceof HotelRoomResponse))
+    if (!(o instanceof RoomResponse))
       return false;
 
-    HotelRoomResponse r = (HotelRoomResponse) o;
+    RoomResponse r = (RoomResponse) o;
     return this.code == r.code && this.name == r.name && this.city == r.city && this.roomType == r.roomType
         && this.priceByNight == r.priceByNight && this.availableSinceDate == r.availableSinceDate
         && this.availableUntilDate == r.availableUntilDate && this.isBooked == r.isBooked;
