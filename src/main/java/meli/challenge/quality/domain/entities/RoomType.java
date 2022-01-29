@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RoomType {
   private String name;
-  private int maxPeopleAmout;
+  private int maxPeopleAmount;
 
   public boolean isForLessThanEqualPeople(int peopleAmount) {
-    return peopleAmount < this.maxPeopleAmout;
+    return peopleAmount < this.maxPeopleAmount;
   }
 }

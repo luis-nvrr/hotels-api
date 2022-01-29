@@ -1,0 +1,36 @@
+[  
+  {
+    "hotel": {
+      "code": "HB-0001",
+      "name": "Hotel Bristol",
+      "city": {
+        "name": "Buenos Aires"
+      }
+    },
+    "roomType": {
+      "name": "single",
+      "maxPeopleAmount":"1"
+    },
+    "priceByNight": 5435,
+    "availableSince": "10/02/2021",
+    "availableUntil": "19/03/2021",
+    "booked": false
+  },
+    {
+    "hotel": {
+      "code": "BH-0002",
+      "name": "Hotel Bristol 2",
+      "city": {
+        "name": "Buenos Aires"
+      }
+    },
+    "roomType": {
+      "name": "doble",
+      "maxPeopleAmount":"2"
+    },
+    "priceByNight": 7200,
+    "availableSince": "12/02/2021",
+    "availableUntil": "17/04/2021",
+    "booked": false
+  }
+]

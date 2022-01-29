@@ -7,12 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -25,137 +23,111 @@ import static org.mockito.MockitoAnnotations.openMocks;
 
 import meli.challenge.quality.application.dtos.RoomResponse;
 import meli.challenge.quality.application.services.RoomServiceImpl;
-import meli.challenge.quality.application.services.RoomServiceImpl.IHotelRoomResponseBuilder;
 import meli.challenge.quality.domain.entities.Room;
 import meli.challenge.quality.domain.exceptions.InvalidDateException;
 import meli.challenge.quality.domain.repositories.RoomRepository;
 import meli.challenge.quality.domain.services.RoomService;
-import meli.challenge.quality.mocks.CityMock;
-import meli.challenge.quality.mocks.HotelMock;
-import meli.challenge.quality.mocks.RoomMock;
-import meli.challenge.quality.mocks.RoomTypeMock;
 
 public class RoomServiceTest {
-  private RoomService hotelService;
-  @Mock
-  private RoomRepository roomRepository;
-  private final ObjectMapper objectMapper = new ObjectMapper();
-  private List<RoomResponse> allRoomsResponse;
-  private List<RoomResponse> filteredResponses;
-  private RoomMock roomMock;
-  private final String DATE_FORMAT = "dd/MM/yyyy";
-  private final SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+    private RoomService hotelService;
+    @Mock
+    private RoomRepository roomRepository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String DATE_FORMAT = "dd/MM/yyyy";
+    private final SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+    private List<Room> roomsStub;
+    private List<RoomResponse> roomsResponse;
 
-  @BeforeEach
-  public void setUp() throws IOException, ParseException {
-    openMocks(this);
-    this.hotelService = new RoomServiceImpl(roomRepository);
-    this.objectMapper.registerModule(new JavaTimeModule());
-    this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    @BeforeEach
+    public void setUp() throws IOException, ParseException {
+        openMocks(this);
+        this.hotelService = new RoomServiceImpl(roomRepository);
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        this.objectMapper.setDateFormat(formatter);
 
-    this.allRoomsResponse = objectMapper.readValue(new File("src/test/resources/hotels/allRoomsResponse.json"),
-        new TypeReference<>() {
-        });
+        this.roomsStub = Arrays.asList(objectMapper
+                .readValue(new File("src/test/resources/hotels/rooms-stub.json"),
+                        Room[].class));
 
-    this.filteredResponses = objectMapper.readValue(
-        new File("src/test/resources/hotels/roomsByStartDateAndEndDateAndCity.json"),
-        new TypeReference<>() {
-        });
+        this.roomsResponse = Arrays.asList(objectMapper.readValue(
+                new File("src/test/resources/hotels/rooms-response.json"),
+                RoomResponse[].class));
+    }
 
-    CityMock cityMock = new CityMock();
-    HotelMock hotelMock = new HotelMock(cityMock);
-    RoomTypeMock roomTypeMock = new RoomTypeMock();
-    this.roomMock = new RoomMock(hotelMock, roomTypeMock);
-  }
+    @Test
+    @DisplayName("Should list all rooms")
+    void shouldListAllRooms() throws IOException {
+        when(roomRepository.findAllAvailableRooms()).thenReturn(roomsStub);
 
-  @Test
-  @DisplayName("Should list all rooms")
-  void shouldListAllRooms() {
-    when(roomRepository.findAllAvailableRooms()).thenReturn(this.roomMock.findAll());
-    assertEquals(allRoomsResponse.size(), this.hotelService.findAllAvailableRooms().size());
-  }
+        List<RoomResponse> result = this.hotelService.findAllAvailableRooms();
 
-  @Test
-  @DisplayName("Should contain all the fields expected in the response")
-  void shouldMatchExpectedSerialization() throws StreamReadException, DatabindException, IOException {
-    Room room = this.roomMock.get(11);
-    IHotelRoomResponseBuilder responseBuilder = ((RoomServiceImpl) this.hotelService).new HotelRoomResponseBuilder(
-        room);
-    responseBuilder.build();
-    RoomResponse responseExpected = objectMapper.readValue(
-        new File("src/test/resources/hotels/exampleRoomResponse.json"),
-        new TypeReference<>() {
-        });
-    assertEquals(objectMapper.writeValueAsString(responseBuilder.getResponse()),
-        objectMapper.writeValueAsString(responseExpected));
-  }
+        assertEquals(objectMapper.writeValueAsString(roomsResponse), objectMapper.writeValueAsString(result));
+    }
 
-  @Test
-  @DisplayName("Should find available rooms by start date and end date, and city")
-  void shouldFindAvailableRoomsByStartDateAndEndDateAndCity() throws ParseException, InvalidDateException {
-    String startDateString = "01/02/2021";
-    String endDateString = "01/05/2021";
-    Date startDate = formatter.parse(startDateString);
-    Date endDate = formatter.parse(endDateString);
-    String cityName = "Buenos Aires";
+    @Test
+    @DisplayName("Should find available rooms by start date and end date, and city")
+    void shouldFindAvailableRoomsByStartDateAndEndDateAndCity()
+            throws ParseException, IOException, InvalidDateException {
+        String startDateString = "01/02/2021";
+        String endDateString = "01/05/2021";
+        Date startDate = formatter.parse(startDateString);
+        Date endDate = formatter.parse(endDateString);
+        String cityName = "Buenos Aires";
 
-    when(roomRepository.findAvailableRoomsByStartDateAndEndDateAndCity(startDate, endDate, cityName))
-        .thenReturn(roomMock.findRoomsInBuenosAiresFromFirstFebruaryToFirstMay());
+        when(roomRepository.findAvailableRoomsByStartDateAndEndDateAndCity(startDate, endDate, cityName))
+                .thenReturn(roomsStub);
 
-    assertEquals(filteredResponses.size(),
-        this.hotelService.findAvailableRoomsByStartDateAndEndDateAndCity(startDateString, endDateString, cityName)
-            .size());
-  }
+        List<RoomResponse> result = this.hotelService.findAvailableRoomsByStartDateAndEndDateAndCity(startDateString,
+                endDateString, cityName);
 
-  @Test
-  @DisplayName("Should find available rooms by start date")
-  void shouldFindAvailableRoomsByStartDate() throws ParseException, InvalidDateException {
-    String startDateString = "01/04/2021";
-    Date startDate = formatter.parse(startDateString);
+        assertEquals(objectMapper.writeValueAsString(roomsResponse),
+                objectMapper.writeValueAsString(result));
+    }
 
-    when(roomRepository.findAvailableRoomsByStartDate(startDate))
-        .thenReturn(roomMock.findAvailableRoomsFromFirstApril());
+    @Test
+    @DisplayName("Should find available rooms by start date")
+    void shouldFindAvailableRoomsByStartDate() throws ParseException, InvalidDateException, IOException {
+        String startDateString = "01/04/2021";
+        Date startDate = formatter.parse(startDateString);
 
-    assertEquals(2, this.hotelService.findAvailableRoomsByStartDate(startDateString).size());
-  }
+        when(roomRepository.findAvailableRoomsByStartDate(startDate)).thenReturn(roomsStub);
+        List<RoomResponse> result = this.hotelService.findAvailableRoomsByStartDate(startDateString);
+        assertEquals(objectMapper.writeValueAsString(roomsResponse), objectMapper.writeValueAsString(result));
+    }
 
-  @Test
-  @DisplayName("Should find available rooms by end date")
-  void shouldFindAvailableRoomsByEndDate() throws ParseException, InvalidDateException {
-    String endDateString = "01/04/2021";
-    Date endDate = formatter.parse(endDateString);
+    @Test
+    @DisplayName("Should find available rooms by end date")
+    void shouldFindAvailableRoomsByEndDate() throws ParseException, InvalidDateException, IOException {
+        String endDateString = "01/04/2021";
+        Date endDate = formatter.parse(endDateString);
 
-    when(roomRepository.findAvailableRoomsByEndDate(
-        endDate))
-            .thenReturn(roomMock.findAvailableRoomsUntilFirstMarch());
+        when(roomRepository.findAvailableRoomsByEndDate(endDate)).thenReturn(roomsStub);
+        List<RoomResponse> result = this.hotelService.findAvailableRoomsByEndDate(endDateString);
+        assertEquals(objectMapper.writeValueAsString(roomsResponse), objectMapper.writeValueAsString(result));
+    }
 
-    assertEquals(1, this.hotelService.findAvailableRoomsByEndDate(endDateString).size());
-  }
+    @Test
+    @DisplayName("Should find available rooms by start date and city")
+    void shouldFindAvailableRoomsByStartDateAndCity() throws ParseException, InvalidDateException, IOException {
+        String startDateString = "01/04/2021";
+        Date startDate = formatter.parse(startDateString);
+        String cityName = "Tucumán";
 
-  @Test
-  @DisplayName("Should find available rooms by start date and city")
-  void shouldFindAvailableRoomsByStartDateAndCity() throws ParseException, InvalidDateException {
-    String startDateString = "01/04/2021";
-    Date startDate = formatter.parse(startDateString);
-    String cityName = "Tucumán";
+        when(roomRepository.findAvailableRoomsByStartDateAndCity(startDate, cityName)).thenReturn(roomsStub);
+        List<RoomResponse> result = this.hotelService.findAvailableRoomsByStartDateAndCity(startDateString, cityName);
+        assertEquals(objectMapper.writeValueAsString(roomsResponse), objectMapper.writeValueAsString(result));
+    }
 
-    when(roomRepository.findAvailableRoomsByStartDateAndCity(startDate, cityName))
-        .thenReturn(roomMock.findAvailableRoomsFromFirstAprilInTucuman());
+    @Test
+    @DisplayName("Should find available rooms by end date and city")
+    void shouldFindAvailableRoomsByEndDateAndCity() throws ParseException, InvalidDateException, IOException {
+        String endDateString = "01/04/2021";
+        Date endDate = formatter.parse(endDateString);
+        String cityName = "Tucumán";
 
-    assertEquals(1, this.hotelService.findAvailableRoomsByStartDateAndCity(startDateString, cityName).size());
-  }
-
-  @Test
-  @DisplayName("Should find available rooms by end date and city")
-  void shouldFindAvailableRoomsByEndDateAndCity() throws ParseException, InvalidDateException {
-    String endDateString = "01/04/2021";
-    Date endDate = formatter.parse(endDateString);
-    String cityName = "Tucumán";
-
-    when(roomRepository.findAvailableRoomsByEndDateAndCity(
-        endDate, cityName))
-            .thenReturn(roomMock.findAvailableRoomsUntilFirstMarchInTucuman());
-
-    assertEquals(1, this.hotelService.findAvailableRoomsByEndDateAndCity(endDateString, cityName).size());
-  }
+        when(roomRepository.findAvailableRoomsByEndDateAndCity(endDate, cityName)).thenReturn(roomsStub);
+        List<RoomResponse> result = this.hotelService.findAvailableRoomsByEndDateAndCity(endDateString, cityName);
+        assertEquals(objectMapper.writeValueAsString(roomsResponse), objectMapper.writeValueAsString(result));
+    }
 }

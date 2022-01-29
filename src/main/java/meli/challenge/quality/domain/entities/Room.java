@@ -10,13 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room {
-  private int number;
   private Hotel hotel;
   private RoomType roomType;
   private int priceByNight;
   private Date availableSince;
   private Date availableUntil;
-  private boolean isBooked;
+  private boolean booked;
 
   public String getHotelName() {
     return this.hotel.getName();
