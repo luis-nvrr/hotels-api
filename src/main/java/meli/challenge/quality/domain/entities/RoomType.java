@@ -3,6 +3,7 @@ package meli.challenge.quality.domain.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import meli.challenge.quality.domain.utils.StringNormalizer;
 
 @Data
 @AllArgsConstructor
@@ -13,5 +14,9 @@ public class RoomType {
 
   public boolean isForLessThanEqualPeople(int peopleAmount) {
     return peopleAmount < this.maxPeopleAmount;
+  }
+
+  public boolean isNamed(String queryName) {
+    return StringNormalizer.compareNormalizedStrings(name, queryName);
   }
 }

@@ -7,6 +7,8 @@ import meli.challenge.quality.domain.entities.Room;
 
 public interface RoomRepository {
 
+  void saveRoom(Room room);
+
   List<Room> findAvailableRoomsByStartDateAndEndDateAndCity(Date availableSince,
       Date availableUntil, String name);
 
@@ -21,4 +23,6 @@ public interface RoomRepository {
   List<Room> findAvailableRoomsByEndDateAndCity(Date endDate, String cityName);
 
   List<Room> findAvailableRoomsByHotelAndRoomType(String hotelCode, String roomType);
+
+  List<Room> findAllRooms();
 }

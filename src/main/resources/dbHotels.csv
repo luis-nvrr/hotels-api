@@ -1,0 +1,13 @@
+Código Hotel,Nombre,Lugar/Ciudad,Tipo de Habitación,Precio por noche,Disponible Desde,Disponible hasta,Reservado
+CH-0002,Cataratas Hotel,Puerto Iguazú,Doble,$6300,10/02/2021,20/03/2021,NO
+CH-0003,Cataratas Hotel 2,Puerto Iguazú,Triple,$8200,10/02/2021,23/03/2021,NO
+HB-0001,Hotel Bristol,Buenos Aires,Single,$5435,10/02/2021,19/03/2021,NO
+BH-0002,Hotel Bristol 2,Buenos Aires,Doble,$7200,12/02/2021,17/04/2021,NO
+SH-0002,Sheraton,Tucumán,Doble,$5790,17/04/2021,23/05/2021,NO
+SH-0001,Sheraton 2,Tucumán,Single,$4150,02/01/2021,19/02/2021,NO
+SE-0001,Selina,Bogotá,Single,$3900,23/01/2021,23/11/2021,NO
+SE-0002,Selina 2,Bogotá,Doble,$5840,23/01/2021,15/10/2021,NO
+EC-0003,El Campín,Bogotá,Triple,$7020,15/02/2021,27/03/2021,NO
+CP-0004,Central Plaza,Medellín,Múltiple,$8600,01/03/2021,17/04/2021,NO
+CP-0002,Central Plaza 2,Medellín,Doble,$6400,10/02/2021,20/03/2021,NO
+BG-0004,Bocagrande,Cartagena,Múltiple,$9370,17/04/2021,12/06/2021,NO

@@ -1,4 +1,6 @@
-package meli.challenge.quality.infrastructure.adapters;
+package meli.challenge.quality.infrastructure.repositories;
+
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -6,12 +8,14 @@ import meli.challenge.quality.domain.entities.Booking;
 import meli.challenge.quality.domain.repositories.BookingRepository;
 
 @Repository
-public class SqlBookingAdapter implements BookingRepository {
+public class BookingRepositoryImpl implements BookingRepository {
+
+  private Set<Booking> repository;
 
   @Override
   public Booking saveBooking(Booking booking) {
-    // TODO Auto-generated method stub
-    return null;
+    this.repository.add(booking);
+    return booking;
   }
 
 }

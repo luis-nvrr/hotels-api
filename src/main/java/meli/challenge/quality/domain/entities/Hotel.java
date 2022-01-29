@@ -15,4 +15,12 @@ public class Hotel {
   public String getCityName() {
     return city.getName();
   }
+
+  public boolean isInCityNamed(String cityName) {
+    return this.city.isNamed(cityName);
+  }
+
+  public boolean hasCode(String code) {
+    return this.code.equals(code);
+  }
 }
