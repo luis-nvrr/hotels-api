@@ -14,10 +14,10 @@ public class RoomTypeMock {
   }
 
   public void load() {
-    RoomType single = new RoomType("Single");
-    RoomType doble = new RoomType("Doble");
-    RoomType triple = new RoomType("Triple");
-    RoomType multiple = new RoomType("Múltiple");
+    RoomType single = new RoomType("single", 1);
+    RoomType doble = new RoomType("doble", 2);
+    RoomType triple = new RoomType("triple", 3);
+    RoomType multiple = new RoomType("múltiple", 10);
     RoomType types[] = { single, doble, triple, multiple };
     for (RoomType type : types) {
       mock.put(type.getName(), type);
@@ -25,6 +25,6 @@ public class RoomTypeMock {
   }
 
   public RoomType get(String name) {
-    return this.mock.get(name);
+    return this.mock.get(name.toLowerCase());
   }
 }

@@ -2,7 +2,7 @@
     "code": "CP-0002",
     "name": "Central Plaza 2",
     "city": "Medellín",
-    "roomType": "Doble",
+    "roomType": "doble",
     "priceByNight": "$6400",
     "availableSinceDate": "10/02/2021",
     "availableUntilDate": "20/03/2021",

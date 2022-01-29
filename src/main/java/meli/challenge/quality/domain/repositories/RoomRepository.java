@@ -19,4 +19,6 @@ public interface RoomRepository {
   List<Room> findAvailableRoomsByStartDateAndCity(Date startDate, String cityName);
 
   List<Room> findAvailableRoomsByEndDateAndCity(Date endDate, String cityName);
+
+  List<Room> findAvailableRoomsByHotelAndRoomType(String hotelCode, String roomType);
 }

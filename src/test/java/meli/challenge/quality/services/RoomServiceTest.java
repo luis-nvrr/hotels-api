@@ -78,7 +78,7 @@ public class RoomServiceTest {
   @Test
   @DisplayName("Should contain all the fields expected in the response")
   void shouldMatchExpectedSerialization() throws StreamReadException, DatabindException, IOException {
-    Room room = this.roomMock.get("CP-0002");
+    Room room = this.roomMock.get(11);
     IHotelRoomResponseBuilder responseBuilder = ((RoomServiceImpl) this.hotelService).new HotelRoomResponseBuilder(
         room);
     responseBuilder.build();

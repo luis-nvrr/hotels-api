@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room {
-  private String code;
+  private int number;
   private Hotel hotel;
   private RoomType roomType;
   private int priceByNight;
@@ -22,11 +22,19 @@ public class Room {
     return this.hotel.getName();
   }
 
+  public String getHotelCode() {
+    return this.hotel.getCode();
+  }
+
   public String getCityName() {
     return this.hotel.getCityName();
   }
 
   public String getRoomTypeName() {
     return this.roomType.getName();
+  }
+
+  public boolean isForLessThanEqualPeople(int peopleAmount) {
+    return roomType.isForLessThanEqualPeople(peopleAmount);
   }
 }

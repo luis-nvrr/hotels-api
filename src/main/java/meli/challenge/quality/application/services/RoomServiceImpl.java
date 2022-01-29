@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.jboss.logging.Logger;
 import org.springframework.stereotype.Service;
 
 import lombok.NoArgsConstructor;
@@ -24,7 +23,6 @@ public class RoomServiceImpl implements RoomService {
   private RoomRepository roomRepository;
   private final String DATE_PATTERN = "dd/MM/yyyy";
   private final DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
-  private final Logger logger = Logger.getLogger(RoomServiceImpl.class);
 
   public RoomServiceImpl(RoomRepository hotelRoomRepository) {
     this.roomRepository = hotelRoomRepository;
@@ -117,7 +115,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     public void build() {
-      response.setCode(room.getCode());
+      response.setCode(room.getHotelCode());
       response.setName(room.getHotelName());
       response.setCity(room.getCityName());
       response.setRoomType(room.getRoomTypeName());

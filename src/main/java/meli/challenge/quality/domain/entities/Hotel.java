@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Hotel {
+  private String code;
   private String name;
   private City city;
 
