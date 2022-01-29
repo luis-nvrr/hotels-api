@@ -1,4 +1,6 @@
 plugins {
+	id 'org.sonarqube' version '3.3'
+	id 'jacoco'
 	id 'org.springframework.boot' version '2.6.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
@@ -32,4 +34,20 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+test.finalizedBy jacocoTestReport
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+    }
+}
+tasks.named('sonarqube').configure {
+    dependsOn test
 }

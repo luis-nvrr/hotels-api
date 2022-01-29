@@ -20,18 +20,4 @@ public class RoomResponse {
   @JsonFormat(pattern = "dd/MM/yyyy")
   private String availableUntilDate;
   private String isBooked;
-
-  @Override
-  public boolean equals(Object o) {
-    if (o == this)
-      return true;
-
-    if (!(o instanceof RoomResponse))
-      return false;
-
-    RoomResponse r = (RoomResponse) o;
-    return this.code == r.code && this.name == r.name && this.city == r.city && this.roomType == r.roomType
-        && this.priceByNight == r.priceByNight && this.availableSinceDate == r.availableSinceDate
-        && this.availableUntilDate == r.availableUntilDate && this.isBooked == r.isBooked;
-  }
 }

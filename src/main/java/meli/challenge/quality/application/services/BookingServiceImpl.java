@@ -100,7 +100,7 @@ public class BookingServiceImpl implements BookingService {
       throws NoAvailableRoomException {
     List<Room> availableRooms = this.roomRepository.findAvailableRoomsByHotelAndRoomType(hotel.getCode(),
         roomType.getName());
-    if (availableRooms.size() == 0 || availableRooms == null)
+    if (availableRooms.isEmpty())
       throw new NoAvailableRoomException("there is no available room for the hotel and room type");
     return availableRooms;
   }

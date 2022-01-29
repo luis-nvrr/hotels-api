@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import meli.challenge.quality.domain.entities.Hotel;
 import meli.challenge.quality.domain.entities.Room;
-import meli.challenge.quality.domain.entities.RoomType;
 import meli.challenge.quality.domain.repositories.RoomRepository;
 import meli.challenge.quality.infrastructure.repositories.SqlRoomRepository;
 
