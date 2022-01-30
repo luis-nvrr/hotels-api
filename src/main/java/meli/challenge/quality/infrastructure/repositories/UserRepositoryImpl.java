@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import meli.challenge.quality.domain.entities.User;
 import meli.challenge.quality.domain.repositories.UserRepository;
+import meli.challenge.quality.domain.utils.StringNormalizer;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -21,12 +22,14 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public User findUserByUsername(String username) {
-    return this.repository.get(username);
+    String normalizedUsername = StringNormalizer.normalizeStringToKey(username);
+    return this.repository.get(normalizedUsername);
   }
 
   @Override
   public void saveUser(User user) {
-    this.repository.putIfAbsent(user.getUsername(), user);
+    String normalizedUsername = StringNormalizer.normalizeStringToKey(user.getUsername());
+    this.repository.putIfAbsent(normalizedUsername, user);
   }
 
   @Override

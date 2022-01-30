@@ -11,7 +11,7 @@ public class StringNormalizer {
   public static final String normalizeStringToKey(String stringToNormalize) {
     String normalizedString = Normalizer.normalize(stringToNormalize, NORMALIZATION_FORM);
     normalizedString = normalizedString.replaceAll(REPLACE_ALL_PATTERN, REPLACE_TO);
-    return normalizedString;
+    return normalizedString.toLowerCase();
   }
 
   public static final boolean compareNormalizedStrings(String stringA, String stringB) {

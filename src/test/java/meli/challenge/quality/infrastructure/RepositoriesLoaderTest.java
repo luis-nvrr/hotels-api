@@ -1,4 +1,4 @@
-package meli.challenge.quality.repositories;
+package meli.challenge.quality.infrastructure;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +13,6 @@ import meli.challenge.quality.domain.repositories.HotelRepository;
 import meli.challenge.quality.domain.repositories.RoomRepository;
 import meli.challenge.quality.domain.repositories.RoomTypeRepository;
 import meli.challenge.quality.domain.repositories.UserRepository;
-import meli.challenge.quality.infrastructure.RepositoriesLoader;
 import meli.challenge.quality.infrastructure.repositories.CityRepositoryImpl;
 import meli.challenge.quality.infrastructure.repositories.HotelRepositoryImpl;
 import meli.challenge.quality.infrastructure.repositories.RoomRepositoryImpl;

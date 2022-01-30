@@ -18,4 +18,8 @@ public class DateFormatter {
       throw new InvalidDateException("invalid date format");
     }
   }
+
+  public static String formatDateToString(Date dateToFormat) {
+    return formatter.format(dateToFormat);
+  }
 }
