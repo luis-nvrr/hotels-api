@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.io.IOException;
+
 import meli.challenge.quality.domain.entities.City;
 import meli.challenge.quality.domain.exceptions.InvalidDateException;
 import meli.challenge.quality.domain.repositories.CityRepository;
@@ -20,7 +22,7 @@ public class CityRepositoryImplTest {
   private CityRepository cityRepository;
 
   @BeforeEach
-  public void setUp() throws InvalidDateException {
+  public void setUp() throws InvalidDateException, IOException {
     cityRepository = new CityRepositoryImpl();
     HotelRepository hotelRepository = new HotelRepositoryImpl();
     RoomRepository roomRepository = new RoomRepositoryImpl();
@@ -29,7 +31,7 @@ public class CityRepositoryImplTest {
     RepositoriesLoader loader = new RepositoriesLoader(cityRepository, hotelRepository, roomRepository,
         roomTypeRepository, userRepository);
 
-    loader.readFromFile();
+    loader.readHotels();
   }
 
   @Test

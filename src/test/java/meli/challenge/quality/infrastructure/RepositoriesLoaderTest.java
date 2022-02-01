@@ -7,16 +7,22 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.io.IOException;
+
 import meli.challenge.quality.domain.exceptions.InvalidDateException;
 import meli.challenge.quality.domain.repositories.CityRepository;
+import meli.challenge.quality.domain.repositories.FlightRepository;
 import meli.challenge.quality.domain.repositories.HotelRepository;
 import meli.challenge.quality.domain.repositories.RoomRepository;
 import meli.challenge.quality.domain.repositories.RoomTypeRepository;
+import meli.challenge.quality.domain.repositories.SeatTypeRepository;
 import meli.challenge.quality.domain.repositories.UserRepository;
 import meli.challenge.quality.infrastructure.repositories.CityRepositoryImpl;
+import meli.challenge.quality.infrastructure.repositories.FlightRepositoryImpl;
 import meli.challenge.quality.infrastructure.repositories.HotelRepositoryImpl;
 import meli.challenge.quality.infrastructure.repositories.RoomRepositoryImpl;
 import meli.challenge.quality.infrastructure.repositories.RoomTypeRepositoryImpl;
+import meli.challenge.quality.infrastructure.repositories.SeatTypeRepositoryImpl;
 import meli.challenge.quality.infrastructure.repositories.UserRepositoryImpl;
 
 public class RepositoriesLoaderTest {
@@ -27,19 +33,19 @@ public class RepositoriesLoaderTest {
   private RoomTypeRepository roomTypeRepository;
   private UserRepository userRepository;
   private RepositoriesLoader loader;
+  private FlightRepository flightRepository;
+  private SeatTypeRepository seatTypeRepository;
 
   @BeforeEach
-  public void setUp() throws InvalidDateException {
+  public void setUp() throws InvalidDateException, IOException {
     cityRepository = new CityRepositoryImpl();
     hotelRepository = new HotelRepositoryImpl();
     roomRepository = new RoomRepositoryImpl();
     roomTypeRepository = new RoomTypeRepositoryImpl();
     userRepository = new UserRepositoryImpl();
-
     loader = new RepositoriesLoader(cityRepository, hotelRepository, roomRepository,
         roomTypeRepository, userRepository);
-
-    loader.readFromFile();
+    loader.readHotels();
   }
 
   @Test
@@ -83,4 +89,23 @@ public class RepositoriesLoaderTest {
     assertEquals(1, this.userRepository.findAllUsers().size());
   }
 
+  @Test
+  @DisplayName("Should save the flights")
+  void shouldSaveAllFlights() throws InvalidDateException {
+    flightRepository = new FlightRepositoryImpl();
+    seatTypeRepository = new SeatTypeRepositoryImpl();
+    loader.setFlightRepositories(flightRepository, seatTypeRepository);
+    loader.readFlights();
+    assertEquals(12, this.flightRepository.findAllFlights().size());
+  }
+
+  @Test
+  @DisplayName("Should save all seat types")
+  void shouldSaveAllSeatTypes() throws InvalidDateException {
+    flightRepository = new FlightRepositoryImpl();
+    seatTypeRepository = new SeatTypeRepositoryImpl();
+    loader.setFlightRepositories(flightRepository, seatTypeRepository);
+    loader.readFlights();
+    assertEquals(2, this.seatTypeRepository.findAllSeatTypes().size());
+  }
 }

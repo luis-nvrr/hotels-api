@@ -5,7 +5,7 @@ public class CurrencyFormatter {
   private static final String CURRENCY_SYMBOL = "$";
 
   public static final int getIntValue(String currencyString) {
-    int value = Integer.parseInt(currencyString.replace(CURRENCY_SYMBOL, ""));
+    int value = Integer.parseInt(currencyString.replace(CURRENCY_SYMBOL, "").replace(".", ""));
     return value;
   }
 
