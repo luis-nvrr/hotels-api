@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import lombok.NoArgsConstructor;
 import meli.challenge.quality.application.dtos.RoomResponse;
 import meli.challenge.quality.domain.entities.Room;
 import meli.challenge.quality.domain.exceptions.InvalidDateException;
@@ -17,15 +16,14 @@ import meli.challenge.quality.domain.repositories.RoomRepository;
 import meli.challenge.quality.domain.services.RoomService;
 
 @Service
-@NoArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
-  private RoomRepository roomRepository;
+  private final RoomRepository roomRepository;
   private final String DATE_PATTERN = "dd/MM/yyyy";
   private final DateFormat formatter = new SimpleDateFormat(DATE_PATTERN);
 
-  public RoomServiceImpl(RoomRepository hotelRoomRepository) {
-    this.roomRepository = hotelRoomRepository;
+  public RoomServiceImpl(RoomRepository roomRepository) {
+    this.roomRepository = roomRepository;
   }
 
   @Override
